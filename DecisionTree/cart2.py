@@ -23,17 +23,18 @@ os.chdir(scriptloc)
 #print((iris.data))
 
 # Read in Data
-#filename = 'iris.data'
-filename = 'data_banknote_authentication.csv'
+filename = 'iris.data'
+#filename = 'data_banknote_authentication.csv'
 with open(filename, 'r') as f:
     lines = csv.reader(f)
     dataset = list(lines)
-
+print(dataset[:2])
 # change list of list string to float
-dataset = [[float(i) for i in row] for row in dataset]
-indices = [0,1,2,900,901,902]
-subdata = [dataset[i] for i in indices]
-#print(subdata)
+#dataset = [[float(i) for i in row] for row in dataset]
+for row in dataset:
+    row[:-1] = [float(i) for i in row[:-1]]
+print(dataset[:2])
+
 
 all_X = [d[:-1] for d in dataset]
 all_y = [d[-1] for d in dataset]
@@ -102,38 +103,44 @@ def split(node, max_depth, min_size, depth):
     print("*** Starting --split-- function ***")
     left, right = node['groups']
     print('Depth:', depth, '| Max Depth:', max_depth)
-    print('LeftGroup:',left)
-    print('RightGroup:', right)
+    #print('LeftGroup:',left)
+    #print('RightGroup:', right)
     del(node['groups'])
     # check for a no split
     if not left or not right:
         node['left'] = node['right'] = to_terminal(left + right)
-        print('Most common el in LeftNode:', node['left'])
-        print('Most common el in RightNode:', node['right'])
+        #print('Most common el in LeftNode:', node['left'])
+        #print('Most common el in RightNode:', node['right'])
         return
     # check for max depth
     if depth >= max_depth:
-        print('** max depth == depth **')
+        print('*** reached max depth ***')
         node['left'], node['right'] = to_terminal(left), to_terminal(right)
         print('Most common el in LeftNode:', node['left'])
         print('Most common el in RightNode:', node['right'])
         #print_tree(node)
         return
     # process left child
-    print('\n*** Grow Left NODE ***')
-    print('LeftNodeSize:', len(left), '| MinSize:', min_size)
+    #print('\n*** Grow Left NODE ***')
+    #print('LeftNodeSize:', len(left), '| MinSize:', min_size)
     if len(left) <= min_size:
+        print('*** Left Node reached min size ***')
         node['left'] = to_terminal(left)
+        print('Most common el in LeftNode:', node['left'])
     else:
         node['left'] = get_split(left)
+        #print('LeftNode after more split:', node['left'])
         split(node['left'], max_depth, min_size, depth+1)
     # process right child
-    print('\n*** Grow Right NODE ***')
-    print('RightNodeSize:', len(right), '| MinSize:', min_size)
+    #print('\n*** Grow Right NODE ***')
+    #print('RightNodeSize:', len(right), '| MinSize:', min_size)
     if len(right) <= min_size:
+        print('*** Right Node reached min size ***')
         node['right'] = to_terminal(right)
+        print('Most common el in RightNode:', node['left'])
     else:
         node['right'] = get_split(right)
+        #print('RightNode after more split:', node['right'])
         split(node['right'], max_depth, min_size, depth+1)
 
 
@@ -153,7 +160,36 @@ def print_tree(node, depth=0):
     else:
         print('%s[%s]' % ((depth*' ', node)))
 
+# Making predictions
+def predict(node, row):
+    if row[node['index']] < node['value']:
+        if isinstance(node['left'], dict):
+            return predict(node['left'], row)
+        else:
+            return node['left']
+    else:
+        if isinstance(node['right'], dict):
+            return predict(node['right'], row)
+        else:
+            return node['right']
 
+# Classification and Regression Tree Algorithm
+def decision_tree(train, test, max_depth, min_size):
+    tree = build_tree(train, max_depth, min_size)
+    predictions = list()
+    for row in test:
+        prediction = predict(tree, row)
+        predictions.append(prediction)
+    return(predictions)
+
+# To check accuracy
+def accuracy_metric(actual, predicted):
+    correct = 0
+    for i in range(len(actual)):
+        if actual[i] == predicted[i]:
+            correct += 1
+    return correct / float(len(actual)) * 100.0
+ 
 
 d = [[2.771244718,1.784783929,0],
     [1.728571309,1.169761413,0],
@@ -183,9 +219,22 @@ f = [[0,0],
      [1,1],
      [7,1]]
 
-print('Data:', f)
-tree = build_tree(f, 2, 1)
-print_tree(tree)
+print('Data:', d)
+#tree = build_tree(d, 3, 1)
+#tree = build_tree(dataset, 10, 5)
+#print_tree(tree)
 
+random.shuffle(dataset)
+n_split = int(0.7 * len(dataset))
+train = dataset[:n_split]
+test = dataset[n_split:]
+
+#prediction = decision_tree(train, test, 5, 5)
+#print(prediction)
+
+test_y = [row[-1] for row in test]
+#print(test_y)
+#acc = accuracy_metric(test_y, prediction)
+#print('Accuracy:', round(acc, 2))
 
 print("\n*** Decision Tree Ending ***")
