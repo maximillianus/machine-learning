@@ -10,6 +10,12 @@ algorithm from scratch enable me to understand better how it works internally.
 Implementation of KNN algorithm from scratch in Python. Implementing the
 algorithm from scratch enable me to understand better how it works internally.
 
+* _LinearRegression_  
+Implementation of Linear Regression algorithm from scratch in Python. Implementing the
+algorithm from scratch enable me to understand better how it works internally.
+Method used for linear regression is Ordinary Least Square.
+
+
 * _kaggle_house_  
 Kaggle's house price prediction challenge. Regression-type machine learning
 \**in progress*\*
