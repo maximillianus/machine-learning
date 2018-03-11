@@ -68,7 +68,7 @@ def coefficients(valX, valY):
     #print('Coef B0:', b0)
     return [b0, b1]
 
-def predictio(novlalX, valY):
+def predictions(valX, valY):
     b0, b1 = coefficients(valX,valY)
     y_hat = [round(b0 + b1 * y, 3) for y in valX]
     return y_hat
@@ -85,9 +85,11 @@ def eval_rmse(predict, actual):
 def rsquared(valX, valY):
     y_hat = predictions(valX, valY)
     meanY = mean(valY)
-    total_sum_squares = sum([(y - meanY) ** 2 for y in valY])
-    total_sum_squares_res = sum([(y - y_h) ** 2 for y, y_h in zip(y, y_hat)])
-    return 1 - (total_sum_squares / total_sum_squares_res)
+    # total sum of squares
+    ss_t = sum([(y - meanY) ** 2 for y in valY])
+    # total sum of squares of residuals
+    ss_r = sum([(y - y_h) ** 2 for y, y_h in zip(valY, y_hat)])
+    return 1 - (ss_r / ss_t)
 
 print('rsquared:', rsquared(x,y))
 
