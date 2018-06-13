@@ -7,13 +7,16 @@ import os
 import pandas as pd
 pd.set_option('display.max_colwidth', -1)
 
-os.chdir("C:\\NotBackedUp\\datafiles\\uci\\")
+scriptdir = os.path.dirname(os.path.abspath(__file__))
+
+# os.chdir("C:\\NotBackedUp\\datafiles\\uci\\")
+os.chdir(scriptdir)
 
 # Read in Data
 with open('SMSSpamCollection', 'r') as f:
     lines = f.readlines()
 
-#print(lines[0:2])
+# print(lines[0:2])
 text_class = [l.split('\t')[0] for l in lines]
 text_msg = [l.split('\t')[1] for l in lines]
 text_msg = [t.replace('\n', '') for t in text_msg]
@@ -22,7 +25,6 @@ text_msg = [t.replace('\n', '') for t in text_msg]
 df = pd.DataFrame({'textclass': text_class,
                   'textmessage':  text_msg})
 
-#print(df.head())
 
 # Subset dataframe for spam
 spamdf = df[df['textclass'] == 'spam']
