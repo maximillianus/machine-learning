@@ -30,8 +30,8 @@ Spam filtering using machine learning
 Data cleaning, NLP, Classification
 \**in progress*\*
 
-* _LogisticRegression_ 
-Implementation of Logistic Regression algorithm from scratch in Python. Still in /*TODO*/ stage
+* _LogisticRegression_  
+Implementation of Logistic Regression algorithm from scratch in Python. Still in /\*TODO\*/ stage
 
-* _Neural Networks_ 
-Implementation of neural network algorithm in Python from scratch and using libraries. Still in /*TODO*/ stage
+* _Neural Networks_  
+Implementation of neural network algorithm in Python from scratch and using libraries. Still in /\*TODO\*/ stage
