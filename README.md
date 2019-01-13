@@ -35,3 +35,6 @@ Implementation of Logistic Regression algorithm from scratch in Python. Still in
 
 * _Neural Networks_  
 Implementation of neural network algorithm in Python from scratch and using libraries. Still in /\*TODO\*/ stage
+
+* Gradient Descent
+Implementation of gradient descent algorithm in Python from scratch. Accompanied by jupyter notebook showing gradient plot.
