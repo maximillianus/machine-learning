@@ -38,3 +38,7 @@ Implementation of neural network algorithm in Python from scratch and using libr
 
 * _Gradient Descent_  
 Implementation of gradient descent algorithm in Python from scratch. Accompanied by jupyter notebook showing gradient plot.
+
+* _ML API_  
+Showcasing how to deploy a machine learning model into inference API endpoint. Used `iris` as dataset so it is making inference based on Iris data.
+
